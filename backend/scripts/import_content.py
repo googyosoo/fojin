@@ -281,7 +281,7 @@ async def main():
 
     engine = create_async_engine(settings.database_url)
     session_factory = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
-    es = AsyncElasticsearch(settings.es_host)
+    es = AsyncElasticsearch(settings.es_host, request_timeout=60.0)
 
     # Build the gaiji normalizer once. ~10MB in-memory snapshot of 31k
     # CBETA gaiji entries. If the gaiji table is empty (script run on a

@@ -72,6 +72,7 @@ function truncate(text: string, max: number): { text: string; truncated: boolean
 
 function dateLocale(language: string): string {
   if (language.startsWith("zh-Hant")) return "zh-Hant";
+  if (language.startsWith("ko")) return "ko-KR";
   if (language.startsWith("en")) return "en-US";
   return "zh-CN";
 }

@@ -25,6 +25,7 @@ import { fitSourceNames, pickHan } from "./homeShowcase";
 import { useAuthStore } from "../stores/authStore";
 import "../styles/home.css"; // mobile-responsive v2.1
 import { LangAlternates } from "../seo/LangAlternates";
+import SansaHero from "../components/SansaHero";
 
 /** 代码点级截断：CBETA 题名偶含扩展 B 区汉字，String.slice 会撕裂代理对。 */
 function truncateTitle(title: string, max = 12): string {
@@ -151,6 +152,7 @@ export default function HomePage() {
         <title>{t("app.title")}</title>
       </Helmet>
       <LangAlternates path="/" />
+      <SansaHero />
       <section className="home-hero">
         <div className="home-hero-bg">
           <img src="/landscape-bg.webp" alt="" decoding="async" />

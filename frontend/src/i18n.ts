@@ -3,36 +3,31 @@ import { initReactI18next } from "react-i18next";
 import HttpBackend from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { UI_LANG_STORAGE_KEY, chineseFromLanguages, dropLegacyUILang } from "./i18nDetect";
-// Inline zh so the default language is available synchronously (no FOUT)
+// Inline zh and ko so default/Korean UI is available synchronously (no FOUT)
 import zhTranslation from "../public/locales/zh/translation.json";
+import koTranslation from "../public/locales/ko/translation.json";
 
 // UI locale codes — these own the `?lang=` query param (detector below).
 // Text/source language FILTERS must use a different param (`tl`, see #709)
 // and treat these codes as not-a-filter when reading legacy links.
-export const SUPPORTED_UI_LANGS = ["zh", "zh-Hant", "en"] as const;
+export const SUPPORTED_UI_LANGS = ["zh", "zh-Hant", "en", "ko"] as const;
 
 /**
  * The UI language to display/select in language pickers.
- *
- * Do NOT use i18n.resolvedLanguage for this: with partialBundledLanguages +
- * HttpBackend, a returning non-zh visitor inits before their locale file
- * arrives, so resolvedLanguage resolves to the zh fallback — and i18next only
- * recomputes it on changeLanguage, never on the later "loaded" event. The
- * header then renders an English UI with a「中文」label. i18n.language always
- * reflects the target language; we just normalize it onto our supported set.
  */
 export function currentUILang(instance: typeof i18n = i18n): string {
   const lng = instance.language ?? "";
   if ((SUPPORTED_UI_LANGS as readonly string[]).includes(lng)) return lng;
   if (lng.startsWith("zh-Hant")) return "zh-Hant";
+  if (lng.startsWith("ko")) return "ko";
   const base = lng.split("-")[0];
   if ((SUPPORTED_UI_LANGS as readonly string[]).includes(base)) return base;
-  return instance.resolvedLanguage ?? "zh";
+  return instance.resolvedLanguage ?? "ko";
 }
 
 dropLegacyUILang();
 
-// 见 i18nDetect.ts：语言列表里有中文就优先中文（#1340）。
+// 브라우저 언어 감지기
 const detector = new LanguageDetector();
 detector.addDetector({
   name: "navigatorChinese",
@@ -45,7 +40,10 @@ i18n
   .use(detector)
   .use(initReactI18next)
   .init({
-    fallbackLng: "zh",
+    fallbackLng: {
+      ko: ["en", "zh"],
+      default: ["zh"],
+    },
     supportedLngs: [...SUPPORTED_UI_LANGS],
     load: "currentOnly",
     keySeparator: false,
@@ -54,17 +52,16 @@ i18n
     defaultNS: "translation",
     resources: {
       zh: { translation: zhTranslation },
+      ko: { translation: koTranslation },
     },
     partialBundledLanguages: true,
     backend: {
       loadPath: "/locales/{{lng}}/translation.json",
     },
     detection: {
-      order: ["querystring", "localStorage", "navigatorChinese", "navigator"],
+      order: ["querystring", "localStorage", "navigator", "navigatorChinese"],
       lookupQuerystring: "lang",
       lookupLocalStorage: UI_LANG_STORAGE_KEY,
-      // 不自动缓存检测结果：?lang= 只管这一次访问，只有语言菜单里的主动选择才落盘
-      // （rememberUILang，见 i18nDetect.ts 与 #1340）。
       caches: [],
     },
     interpolation: {
@@ -75,10 +72,8 @@ i18n
     },
   });
 
-// Same values the server-rendered shells use (src/seo/buildShells.ts,
-// backend/app/services/seo_lang.py): the UI code "zh" is simplified Chinese.
 i18n.on("languageChanged", (lng) => {
-  document.documentElement.lang = lng === "zh" ? "zh-Hans" : lng;
+  document.documentElement.lang = lng === "zh" ? "zh-Hans" : lng === "ko" ? "ko-KR" : lng;
 });
 
 export default i18n;

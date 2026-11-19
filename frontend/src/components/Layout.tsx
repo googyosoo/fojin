@@ -350,6 +350,7 @@ export default function Layout() {
           <Dropdown
             menu={{
               items: [
+                { key: "ko", label: "한국어" },
                 { key: "zh", label: t("language.zh") },
                 { key: "zh-Hant", label: t("language.zh-Hant") },
                 { key: "en", label: "English" },

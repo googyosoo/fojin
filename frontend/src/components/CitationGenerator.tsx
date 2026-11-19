@@ -61,6 +61,8 @@ export default function CitationGenerator({
   const citationOptions = {
     apaLocale: i18n.language.startsWith("en")
       ? "en-US"
+      : i18n.language.startsWith("ko")
+      ? "ko-KR"
       : i18n.language.startsWith("zh-Hant")
       ? "zh-Hant"
       : "zh-CN",

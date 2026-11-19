@@ -14,8 +14,12 @@ import type {
   IIIFManifestId,
 } from "../types/branded";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.PROD ? "https://fojin.app/api" : "/api");
+
 export const api = axios.create({
-  baseURL: "/api",
+  baseURL: API_BASE_URL,
   timeout: 15000,
 });
 

@@ -425,7 +425,7 @@ export default function DeckGLMap({
   );
 
   const layers = useMemo(() => {
-    const result = [];
+    const result: any[] = [];
 
     // Layered rendering: monastery → others → place → person (minority on top)
     const monasteries = filteredEntities.filter((e) => e.entity_type === "monastery");

@@ -48,6 +48,7 @@ import PassageLocateCard from "../components/PassageLocateCard";
 import AnswerSummaryBar from "../components/AnswerSummaryBar";
 import CitationSidebar, { type CitationPanelRequest } from "../components/CitationSidebar";
 import AnswerCitationEntry from "../components/AnswerCitationEntry";
+import GeminiKeyModal from "../components/GeminiKeyModal";
 import { getMasters } from "../api/client";
 import type { CitationTarget } from "../components/CitationDrawer";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -632,6 +633,7 @@ export default function ChatPage() {
   // 祖师长廊: opened from .chat-lineage-btn in the composer toolbar — the sole
   // entry point, in every state (empty and mid-thread alike).
   const [galleryOpen, setGalleryOpen] = useState(false);
+  const [geminiModalOpen, setGeminiModalOpen] = useState(false);
   const { data: mastersData } = useQuery({
     queryKey: ["chat-masters"],
     queryFn: getMasters,
@@ -1616,13 +1618,10 @@ export default function ChatPage() {
     handleSendMessage(msg);
   }, [searchParams, setSearchParams, handleSendMessage]);
 
-  /** 去配 Key。带上来源与当前会话，好让 /profile 给出一个能真正返回原会话的按钮 ——
-   *  sessionId 只是组件 state，离开 /chat 就没了，光有「返回」会落在空白新对话上。 */
+  /** Gemini API Key 설정 모달 열기 */
   const goConfigureKey = useCallback(() => {
-    const q = new URLSearchParams({ tab: "apikey", from: "chat" });
-    if (sessionId !== undefined) q.set("s", String(sessionId));
-    navigate(`/profile?${q.toString()}`);
-  }, [navigate, sessionId]);
+    setGeminiModalOpen(true);
+  }, []);
 
   const handleExport = useCallback(() => {
     if (messages.length === 0) {
@@ -2266,6 +2265,7 @@ export default function ChatPage() {
         />
       </Modal>
       <ChatShortcutsHelp open={shortcutsHelpOpen} onClose={() => setShortcutsHelpOpen(false)} />
+      <GeminiKeyModal open={geminiModalOpen} onClose={() => setGeminiModalOpen(false)} />
     </>
   );
 }
