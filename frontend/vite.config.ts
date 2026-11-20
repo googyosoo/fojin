@@ -61,6 +61,7 @@ function manualChunks(id: string): string | undefined {
 }
 
 export default defineConfig({
+  base: "/fojin/",
   plugins: [
     react(),
     VitePWA({

@@ -48,7 +48,7 @@ import PassageLocateCard from "../components/PassageLocateCard";
 import AnswerSummaryBar from "../components/AnswerSummaryBar";
 import CitationSidebar, { type CitationPanelRequest } from "../components/CitationSidebar";
 import AnswerCitationEntry from "../components/AnswerCitationEntry";
-import GeminiKeyModal from "../components/GeminiKeyModal";
+import GeminiKeyModal, { getStoredGeminiKey } from "../components/GeminiKeyModal";
 import { getMasters } from "../api/client";
 import type { CitationTarget } from "../components/CitationDrawer";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -634,6 +634,13 @@ export default function ChatPage() {
   // entry point, in every state (empty and mid-thread alike).
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [geminiModalOpen, setGeminiModalOpen] = useState(false);
+
+  // GitHub Pages 등 서버 함수가 없는 환경에서 사용자 키(BYOK) 모드로 자동 동작
+  useEffect(() => {
+    if (!getStoredGeminiKey()) {
+      setGeminiModalOpen(true);
+    }
+  }, []);
   const { data: mastersData } = useQuery({
     queryKey: ["chat-masters"],
     queryFn: getMasters,

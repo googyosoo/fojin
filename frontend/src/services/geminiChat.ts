@@ -38,23 +38,16 @@ export async function sendGeminiChatStream({
 
   (async () => {
     try {
-      let endpoint: string;
-      let headers: Record<string, string>;
-
-      if (localKey) {
-        // 클라이언트 직접 호출 (BYOK)
-        endpoint = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
-        headers = {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localKey}`,
-        };
-      } else {
-        // Vercel 서버리스 엔드포인트 호출
-        endpoint = "/api/chat";
-        headers = {
-          "Content-Type": "application/json",
-        };
+      if (!localKey) {
+        throw new Error("NO_KEY: 사용자 API 키가 설정되지 않았습니다. 상단 'Gemini API 설정'에서 키를 입력해 주세요.");
       }
+
+      // 클라이언트 직접 호출 (BYOK)
+      const endpoint = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localKey}`,
+      };
 
       const payload = {
         model,
