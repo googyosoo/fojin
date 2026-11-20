@@ -21,11 +21,7 @@ const HANT_REGIONS = /^zh-(tw|hk|mo|hant)/i;
  * 列表里出现中文就说明读得懂中文，优先给中文；台港澳与显式 Hant 给繁体。
  * 列表里没有中文时返回 undefined，交给后面的标准 navigator 检测。
  */
-export function chineseFromLanguages(langs: readonly string[] | undefined): string | undefined {
-  for (const l of langs ?? []) {
-    if (!/^zh\b/i.test(l)) continue;
-    return HANT_REGIONS.test(l) ? "zh-Hant" : "zh";
-  }
+export function chineseFromLanguages(_langs: readonly string[] | undefined): string | undefined {
   return undefined;
 }
 

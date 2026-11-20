@@ -40,10 +40,8 @@ i18n
   .use(detector)
   .use(initReactI18next)
   .init({
-    fallbackLng: {
-      ko: ["en", "zh"],
-      default: ["zh"],
-    },
+    lng: "ko",
+    fallbackLng: "ko",
     supportedLngs: [...SUPPORTED_UI_LANGS],
     load: "currentOnly",
     keySeparator: false,
@@ -51,18 +49,18 @@ i18n
     ns: ["translation"],
     defaultNS: "translation",
     resources: {
-      zh: { translation: zhTranslation },
       ko: { translation: koTranslation },
+      zh: { translation: zhTranslation },
     },
     partialBundledLanguages: true,
     backend: {
-      loadPath: "/locales/{{lng}}/translation.json",
+      loadPath: `${import.meta.env.BASE_URL}locales/{{lng}}/translation.json`,
     },
     detection: {
-      order: ["querystring", "localStorage", "navigator", "navigatorChinese"],
+      order: ["querystring", "localStorage"],
       lookupQuerystring: "lang",
       lookupLocalStorage: UI_LANG_STORAGE_KEY,
-      caches: [],
+      caches: ["localStorage"],
     },
     interpolation: {
       escapeValue: false,

@@ -1,53 +1,29 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <!-- Pre-paint theme init. External (not inline) + render-blocking (no defer):
-         the prod CSP is `script-src 'self'` with no 'unsafe-inline', so an inline
-         block is silently dropped in production → dark users flash light on every
-         load. Kept first in <head> so data-theme is set before first paint. -->
-    <script src="/theme-init.js"></script>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script src="./theme-init.js"></script>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#8b2500" />
-    <!-- 文案里刻意不写数据源/典籍的精确条数：这类计数会随入库增长而过期
-         （README 长期停在 613，实际已 721），静态 HTML 又无法随库更新。
-         见 src/seoStaticCounts.test.ts —— 该约定就是为防这类漂移而立的。 -->
-    <meta name="description" content="向大藏经提问，小津用原文回答——每条引用标注经名与卷号，可点开比对原典。汉传·南传·藏传三系跨语对读，聚合全球公开佛教典籍与辞典，完全免费。" />
+    <meta name="theme-color" content="#2F5D50" />
+    <meta name="description" content="대장경에 묻고 원문으로 답을 얻는 디지털 산사 대장경 플랫폼. 금강경, 반야심경, 화엄경 등 동아시아 불교 고전 원문 검색과 인공지능 선문답." />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://fojin.app/" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="佛津 FoJin — 问佛经，得到能核对原文的答案" />
-    <meta property="og:description" content="AI 从大藏经原文作答，每条引用都标注经名与卷号、可点开比对原典。汉传·南传·藏传跨语对读，完全免费。" />
-    <meta property="og:url" content="https://fojin.app/" />
-    <!-- 分享卡片图：1200x630。此前指向 landscape-bg.png（纯背景画，不含任何产品信息），
-         微信/Twitter 里分享出去说不清产品是什么。改为带主张+引用示例的卡片。 -->
-    <meta property="og:image" content="https://fojin.app/og-image.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="佛津 FoJin — 问佛经，得到能核对原文的答案" />
-    <meta property="og:locale" content="zh_CN" />
-    <meta property="og:site_name" content="佛津 FoJin" />
+    <meta property="og:title" content="불진 佛津 — 디지털 산사 대장경" />
+    <meta property="og:description" content="대장경 원문 근거 인공지능 선문답 및 불교 경전 검색 플랫폼." />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content="불진 佛津" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="佛津 FoJin — 问佛经，得到能核对原文的答案" />
-    <meta name="twitter:description" content="AI 从大藏经原文作答，每条引用都标注经名与卷号、可点开比对原典。完全免费。" />
-    <meta name="twitter:image" content="https://fojin.app/og-image.png" />
+    <meta name="twitter:title" content="불진 佛津 — 디지털 산사 대장경" />
+    <meta name="twitter:description" content="대장경 원문 근거 인공지능 선문답 및 불교 경전 검색 플랫폼." />
 
-    <link rel="alternate" type="application/rss+xml" title="佛津 FoJin — 最新收录" href="https://fojin.app/feed.xml" />
-    <link rel="preload" href="/fonts/MaShanZheng-title-v2.woff2" as="font" type="font/woff2" crossorigin />
-    <!-- Hero background: preload so the (tiny, ~19KB) WebP starts downloading during
-         HTML parse in parallel with the JS bundle, instead of only after React mounts
-         the <img>. Kills the white→image flash on first paint. -->
-    <link rel="preload" href="/landscape-bg.webp" as="image" fetchpriority="high" />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-    <!-- Umami Analytics is opt-in at build time via VITE_UMAMI_URL + VITE_UMAMI_WEBSITE_ID;
-         see src/umami.ts. Self-hosters who don't set both envs get no tracking script. -->
-    <title>佛津 FoJin — 全球佛教古籍数字资源聚合平台，AI 问答引文可核对原文</title>
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <title>불진 佛津 — 디지털 산사 대장경</title>
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
