@@ -10,8 +10,6 @@
 export const UI_LANG_STORAGE_KEY = "fojin.uiLang";
 const LEGACY_STORAGE_KEY = "i18nextLng";
 
-const HANT_REGIONS = /^zh-(tw|hk|mo|hant)/i;
-
 /**
  * 浏览器语言列表里只要有中文，就用中文——不管它排第几。
  *

@@ -351,8 +351,8 @@ export default function Layout() {
             menu={{
               items: [
                 { key: "ko", label: "한국어" },
-                { key: "zh", label: t("language.zh") },
-                { key: "zh-Hant", label: t("language.zh-Hant") },
+                { key: "zh", label: "中文" },
+                { key: "zh-Hant", label: "中文(繁體)" },
                 { key: "en", label: "English" },
               ],
               onClick: ({ key }) => {
@@ -373,7 +373,15 @@ export default function Layout() {
               style={{ color: inkMuted, fontSize: 13 }}
               aria-label={t("a11y.button.switch_language")}
             >
-              <span className="header-lang-text">{t(`language.${currentUILang(i18n)}`)}</span>
+              <span className="header-lang-text">
+                {currentUILang(i18n) === "ko"
+                  ? "한국어"
+                  : currentUILang(i18n) === "zh-Hant"
+                  ? "繁體"
+                  : currentUILang(i18n) === "zh"
+                  ? "中文"
+                  : "English"}
+              </span>
             </Button>
           </Dropdown>
           {user ? (

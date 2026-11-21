@@ -155,7 +155,7 @@ export default function HomePage() {
       <SansaHero />
       <section className="home-hero">
         <div className="home-hero-bg">
-          <img src="/landscape-bg.webp" alt="" decoding="async" />
+          <img src={`${import.meta.env.BASE_URL}landscape-bg.webp`} alt="" decoding="async" />
         </div>
         <h1 className="home-title">
           <span className="home-title-accent">{t("home.title_accent")}</span>{t("home.title_rest")}

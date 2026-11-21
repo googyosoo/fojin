@@ -1815,5 +1815,6 @@
   "read.topics_all": "All collections →",
   "home.feature_read_title": "Read",
   "home.feature_read_desc": "Heart · Diamond · Lotus · Avataṃsaka",
-  "home.feature_read_continue": "Continue: {{title}}"
+  "home.feature_read_continue": "Continue: {{title}}",
+  "language.ko": "Korean"
 }

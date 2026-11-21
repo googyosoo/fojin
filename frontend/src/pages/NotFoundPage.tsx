@@ -66,7 +66,7 @@ export default function NotFoundPage() {
         <title>{`${t("notfound.doc_title")} - ${t("app.name")}`}</title>
       </Helmet>
       <div className="nf-bg" aria-hidden="true">
-        <img src="/landscape-bg.webp" alt="" decoding="async" />
+        <img src={`${import.meta.env.BASE_URL}landscape-bg.webp`} alt="" decoding="async" />
       </div>
       <div className="nf-inner">
         <div className="nf-seal" aria-hidden="true">{t("notfound.title")}</div>
