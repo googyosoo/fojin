@@ -1,52 +1,31 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import HttpBackend from "i18next-http-backend";
-import LanguageDetector from "i18next-browser-languagedetector";
 import { UI_LANG_STORAGE_KEY, dropLegacyUILang } from "./i18nDetect";
-// Inline zh and ko so default/Korean UI is available synchronously (no FOUT)
-import zhTranslation from "../public/locales/zh/translation.json";
 import koTranslation from "../public/locales/ko/translation.json";
 
-// UI locale codes — these own the `?lang=` query param (detector below).
-// Text/source language FILTERS must use a different param (`tl`, see #709)
-// and treat these codes as not-a-filter when reading legacy links.
-export const SUPPORTED_UI_LANGS = ["zh", "zh-Hant", "en", "ko"] as const;
+// FoJin 한국어 단일 언어 모드
+export const SUPPORTED_UI_LANGS = ["ko"] as const;
 
-/**
- * The UI language to display/select in language pickers.
- */
-export function currentUILang(instance: typeof i18n = i18n): string {
-  const lng = instance.language ?? "";
-  if ((SUPPORTED_UI_LANGS as readonly string[]).includes(lng)) return lng;
-  if (lng.startsWith("zh-Hant")) return "zh-Hant";
-  if (lng.startsWith("ko")) return "ko";
-  const base = lng.split("-")[0];
-  if ((SUPPORTED_UI_LANGS as readonly string[]).includes(base)) return base;
-  return instance.resolvedLanguage ?? "ko";
+export function currentUILang(_instance?: any): string {
+  return "ko";
 }
 
 dropLegacyUILang();
 
 try {
-  // 이전 세션에서 남아있던 zh 기본값을 한국어(ko)로 정정
-  const saved = typeof localStorage !== "undefined" ? localStorage.getItem(UI_LANG_STORAGE_KEY) : null;
-  if (!saved || saved === "zh" || saved === "zh-Hans" || saved === "zh-CN") {
+  if (typeof localStorage !== "undefined") {
     localStorage.setItem(UI_LANG_STORAGE_KEY, "ko");
   }
 } catch {
   // ignore
 }
 
-const detector = new LanguageDetector();
-
 i18n
-  .use(HttpBackend)
-  .use(detector)
   .use(initReactI18next)
   .init({
     lng: "ko",
     fallbackLng: "ko",
-    supportedLngs: [...SUPPORTED_UI_LANGS],
+    supportedLngs: ["ko"],
     load: "currentOnly",
     keySeparator: false,
     nsSeparator: false,
@@ -54,17 +33,6 @@ i18n
     defaultNS: "translation",
     resources: {
       ko: { translation: koTranslation },
-      zh: { translation: zhTranslation },
-    },
-    partialBundledLanguages: true,
-    backend: {
-      loadPath: `${import.meta.env.BASE_URL}locales/{{lng}}/translation.json`,
-    },
-    detection: {
-      order: ["querystring", "localStorage"],
-      lookupQuerystring: "lang",
-      lookupLocalStorage: UI_LANG_STORAGE_KEY,
-      caches: ["localStorage"],
     },
     interpolation: {
       escapeValue: false,
@@ -74,8 +42,6 @@ i18n
     },
   });
 
-i18n.on("languageChanged", (lng) => {
-  document.documentElement.lang = lng === "zh" ? "zh-Hans" : lng === "ko" ? "ko-KR" : lng;
-});
+document.documentElement.lang = "ko-KR";
 
 export default i18n;

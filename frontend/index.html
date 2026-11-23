@@ -32,13 +32,13 @@
       "@graph": [
         {
           "@type": "WebSite",
-          "name": "佛津 FoJin",
-          "url": "https://fojin.app/",
-          "description": "全球佛教古籍数字资源聚合平台——AI 问答从大藏经原文作答，每条引用标注经名卷号并可点开核对原典",
-          "inLanguage": "zh-Hans",
+          "name": "불진 佛津",
+          "url": "https://googyosoo.github.io/fojin/",
+          "description": "동아시아 디지털 산사 대장경 플랫폼 — 대장경 원문에 근거하여 답하고, 인용된 경전명과 권호를 원문과 직접 대조할 수 있는 인공지능 선문답",
+          "inLanguage": "ko",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://fojin.app/search?q={search_term_string}",
+            "target": "https://googyosoo.github.io/fojin/search?q={search_term_string}",
             "query-input": "required name=search_term_string"
           }
         },
@@ -48,20 +48,20 @@
             {
               "@type": "ListItem",
               "position": 1,
-              "name": "首页",
-              "item": "https://fojin.app/"
+              "name": "일주문(홈)",
+              "item": "https://googyosoo.github.io/fojin/"
             },
             {
               "@type": "ListItem",
               "position": 2,
-              "name": "搜索",
-              "item": "https://fojin.app/search"
+              "name": "경장(검색)",
+              "item": "https://googyosoo.github.io/fojin/search"
             },
             {
               "@type": "ListItem",
               "position": 3,
-              "name": "数据源",
-              "item": "https://fojin.app/sources"
+              "name": "장경각(자료원)",
+              "item": "https://googyosoo.github.io/fojin/sources"
             }
           ]
         }
@@ -73,27 +73,26 @@
     <div id="root"></div>
     <noscript>
       <div style="max-width:800px;margin:40px auto;padding:0 24px;font-family:serif;color:#2b2318">
-        <h1>佛津 FoJin — 全球佛教古籍数字资源聚合平台，AI 问答引文可核对原文</h1>
-        <p>用大白话向大藏经提问，佛学助手「小津」从典籍原文作答。答案里的每条引用都标注经名与卷号，点开即可比对原典——这是佛津与一般 AI 问答最不同的地方：<strong>你不必相信它，你可以去查它</strong>。</p>
-        <h2>核心功能</h2>
+        <h1>불진 佛津 — 대장경 원문 근거 인공지능 선문답 및 디지털 산사 대장경 플랫폼</h1>
+        <p>현대어로 대장경에 질문하면, 선지식 AI가 경전 원문에 입각하여 답변합니다. 답변의 모든 인용 구절에는 경전명과 권호가 표기되어 원전과 즉시 대조할 수 있습니다. <strong>원문으로 직접 확인하고 참구하는 디지털 불경 플랫폼</strong>입니다.</p>
+        <h2>주요 기능</h2>
         <ul>
-          <li><strong>AI 问答</strong> — 检索大藏经原文后作答，引用可点开核对，并有防幻觉护栏</li>
-          <li><strong>祖师说法</strong> — 以 15 位历史祖师的视角作答，各自只依其宗派典籍</li>
-          <li><strong>跨藏对读</strong> — 汉传·南传·藏传三语逐段对照，一览异译</li>
-          <li><strong>典籍搜索</strong> — 跨数据源检索佛教古籍，支持按经名、编号、译者查询</li>
-          <li><strong>佛学辞典</strong> — 汉语、梵语、巴利语、藏语多语辞书汇编查询</li>
-          <li><strong>知识图谱</strong> — 人物、寺院、宗派关系与地理可视化</li>
-          <li><strong>引用生成</strong> — 一键导出 BibTeX、RIS、APA 学术引用格式</li>
+          <li><strong>선문답(AI 문답)</strong> — 대장경 원문을 검색하여 답변하고 인용 출처를 대조</li>
+          <li><strong>역대 조사 법문</strong> — 역사적 선지식의 시각에서 종파별 소의경전에 기반하여 답변</li>
+          <li><strong>삼장 대조</strong> — 한문본·남전 팔리어본·티베트어본 다국어 구절 대조</li>
+          <li><strong>경장 검색</strong> — 전 세계 대장경 자료원을 통합 검색, 경전명·편차·역관별 상세 조회</li>
+          <li><strong>불교 사전</strong> — 한문·산스크리트어·팔리어·티베트어 다언어 불교 용어 사전</li>
+          <li><strong>법맥도(지식 그래프)</strong> — 인물·사찰·종파의 전승 계보와 지리적 연계 시각화</li>
         </ul>
-        <h2>数据来源</h2>
-        <p>聚合全球学术机构、图书馆、大学及佛教研究组织的公开数字资源，包括 CBETA、BDRC、SAT、SuttaCentral、84000 等权威项目。数据定期同步更新，经过自动去重与校验。完全免费，代码以 Apache 2.0 开源。</p>
-        <h2>导航</h2>
+        <h2>자료 출처</h2>
+        <p>CBETA, BDRC, SAT, SuttaCentral, 84000 등 권위 있는 불교 디지털 아카이브 자원을 연계합니다.</p>
+        <h2>바로가기</h2>
         <ul>
-          <li><a href="/chat">AI 问答</a></li>
-          <li><a href="/search">搜索典籍</a></li>
-          <li><a href="/dictionary">佛学辞典</a></li>
-          <li><a href="/sources">数据源导航</a></li>
-          <li><a href="/kg">知识图谱</a></li>
+          <li><a href="/fojin/chat">선문답(AI 문답)</a></li>
+          <li><a href="/fojin/search">경장 검색</a></li>
+          <li><a href="/fojin/dictionary">불교 사전</a></li>
+          <li><a href="/fojin/sources">장경각(자료원)</a></li>
+          <li><a href="/fojin/kg">법맥도(지식도)</a></li>
         </ul>
       </div>
     </noscript>

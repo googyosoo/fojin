@@ -18,7 +18,6 @@ import {
   RobotOutlined,
   // SafetyCertificateOutlined,  // verify nav hidden (2026-10-16 用户要求暂撤；路由仍可直达 /verify)
   GithubOutlined,
-  GlobalOutlined,
   // TranslationOutlined,  // cross-canon nav hidden (板块待打磨；路由仍可直达 /cross-canon)
   // DownloadOutlined,   // exports nav hidden (开放数据 暂不对外公开)
   // ExperimentOutlined,  // research nav hidden (研究助手 待重构后再上线)
@@ -27,15 +26,12 @@ import {
   // NotificationOutlined,  // activity nav deferred (empty Source-Updates subtab)
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { currentUILang } from "../i18n";
-import { rememberUILang } from "../i18nDetect";
 import ThemeToggle from "./ThemeToggle";
 import { useAuthStore } from "../stores/authStore";
 import { useXiaojinStore } from "../stores/xiaojinStore";
 import { getAdminPendingSummary, type AdminPendingSummary } from "../api/client";
 import NotificationBell from "./NotificationBell";
 import { useNavFit } from "../hooks/useNavFit";
-import { searchWithLang } from "../seo/syncLangParam";
 
 const { Header, Content, Footer } = AntLayout;
 
@@ -43,7 +39,7 @@ export default function Layout() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuthStore();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const isHome = location.pathname === "/";
   const xiaojinHidden = useXiaojinStore((st) => st.hidden);
   const recallXiaojin = useXiaojinStore((st) => st.show);
@@ -347,43 +343,6 @@ export default function Layout() {
         <Space ref={actionsRef} className="header-actions">
           <ThemeToggle />
           <NotificationBell />
-          <Dropdown
-            menu={{
-              items: [
-                { key: "ko", label: "한국어" },
-                { key: "zh", label: "中文" },
-                { key: "zh-Hant", label: "中文(繁體)" },
-                { key: "en", label: "English" },
-              ],
-              onClick: ({ key }) => {
-                rememberUILang(key);
-                void i18n.changeLanguage(key);
-                navigate(
-                  { pathname: location.pathname, search: searchWithLang(location.search, key), hash: location.hash },
-                  { replace: true, state: location.state },
-                );
-              },
-              selectedKeys: [currentUILang(i18n)],
-            }}
-          >
-            <Button
-              className="header-hit header-icon-btn"
-              type="text"
-              icon={<GlobalOutlined />}
-              style={{ color: inkMuted, fontSize: 13 }}
-              aria-label={t("a11y.button.switch_language")}
-            >
-              <span className="header-lang-text">
-                {currentUILang(i18n) === "ko"
-                  ? "한국어"
-                  : currentUILang(i18n) === "zh-Hant"
-                  ? "繁體"
-                  : currentUILang(i18n) === "zh"
-                  ? "中文"
-                  : "English"}
-              </span>
-            </Button>
-          </Dropdown>
           {user ? (
             <Dropdown
               menu={{
