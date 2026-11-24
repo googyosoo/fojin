@@ -37,7 +37,7 @@ export default function TimelinePage() {
   return (
     <>
       <Helmet>
-        <title>{`${t("timeline.title", "时间线")} - FoJin`}</title>
+        <title>{`${t("timeline.title", "연표")} - FoJin`}</title>
       </Helmet>
       <div className="timeline-container">
         <div className="timeline-header">
@@ -47,7 +47,7 @@ export default function TimelinePage() {
               color: "var(--fj-ink)",
             }}
           >
-            {t("timeline.title", "时间线")}
+            {t("timeline.title", "연표")}
           </h2>
           <Tabs
             activeKey={dimension}
@@ -56,13 +56,13 @@ export default function TimelinePage() {
               setPage(1);
             }}
             items={[
-              { key: "texts", label: t("timeline.texts", "典籍") },
-              { key: "figures", label: t("timeline.figures", "人物") },
-              { key: "schools", label: t("timeline.schools", "宗派") },
+              { key: "texts", label: t("timeline.texts", "경전") },
+              { key: "figures", label: t("timeline.figures", "인물") },
+              { key: "schools", label: t("timeline.schools", "종파") },
             ]}
           />
           <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span>{t("dashboard.scholarlyMode", "学术模式")}</span>
+            <span>{t("dashboard.scholarlyMode", "학술 모드")}</span>
             <Switch checked={scholarlyMode} onChange={toggleScholarlyMode} />
           </label>
         </div>
@@ -74,7 +74,7 @@ export default function TimelinePage() {
                 <Spin size="large" />
               </div>
             ) : !data || data.items.length === 0 ? (
-              <Empty description={t("common.noData", "暂无数据")} />
+              <Empty description={t("common.noData", "데이터가 없습니다")} />
             ) : (
               <>
                 <TimelineChart

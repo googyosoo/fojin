@@ -100,7 +100,6 @@ export default defineConfig({
         clientsClaim: true,
       },
     }),
-    seoPages(),
   ],
   build: {
     rollupOptions: {

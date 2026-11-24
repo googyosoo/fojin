@@ -13,7 +13,7 @@ export default function ThemeToggle() {
       size="small"
       value={mode}
       onChange={(v) => setMode(v as ThemeMode)}
-      aria-label={t("theme.toggle", "主题")}
+      aria-label={t("theme.toggle", "테마 변경")}
       options={[
         { value: "light", icon: <span aria-label="theme-light"><SunOutlined /></span> },
         { value: "dark", icon: <span aria-label="theme-dark"><MoonOutlined /></span> },

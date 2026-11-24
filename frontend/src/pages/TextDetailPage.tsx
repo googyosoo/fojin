@@ -158,8 +158,8 @@ export default function TextDetailPage() {
       <Breadcrumb
         className="td-breadcrumb"
         items={[
-          { title: <span style={{ cursor: "pointer" }} onClick={() => navigate("/")}><HomeOutlined /> {t("nav.home", "首页")}</span> },
-          { title: <span style={{ cursor: "pointer" }} onClick={() => navigate("/search")}>{t("nav.search", "搜索")}</span> },
+          { title: <span style={{ cursor: "pointer" }} onClick={() => navigate("/")}><HomeOutlined /> {t("nav.home", "일주문(홈)")}</span> },
+          { title: <span style={{ cursor: "pointer" }} onClick={() => navigate("/search")}>{t("nav.search", "경장(검색)")}</span> },
           { title: t("textDetail.breadcrumbDetails") },
         ]}
       />

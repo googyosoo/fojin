@@ -379,7 +379,7 @@ export default function SourcesPage() {
   // Group keys are raw data values (zh region names / field codes / language
   // display names) — translate at display time, falling back to the raw value.
   const groupLabel = (name: string): string => {
-    if (name === "其他") return t("region.其他", name); // i18n-exempt
+    if (name === "其他") return t("region.其他", "기타");
     if (groupBy === "region") return t(`region.${name}`, name);
     if (groupBy === "field") return t(`field.${name}`, FIELD_NAMES[name] || name);
     // language groups are keyed by the Chinese data name — reverse to the

@@ -103,7 +103,7 @@ export default function NotificationBell() {
                     </Typography.Text>
                     <br />
                     <Typography.Text type="secondary" style={{ fontSize: 11 }}>
-                      {new Date(item.created_at).toLocaleString("zh-CN")}
+                      {new Date(item.created_at).toLocaleString("ko-KR")}
                     </Typography.Text>
                   </>
                 }

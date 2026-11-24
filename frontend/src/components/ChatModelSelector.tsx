@@ -34,7 +34,7 @@ const FALLBACK_OPTIONS: ChatModelOption[] = [
     id: "deepseek:v4-pro",
     provider: "deepseek",
     label: "DeepSeek V4 Pro",
-    description: "默认模型", // i18n-exempt — mirrors the backend catalog payload; real descriptions arrive from the API as data
+    description: "기본 모델", // i18n-exempt — mirrors the backend catalog payload; real descriptions arrive from the API as data
     vision: false,
     available: true,
     requires_byok: false,

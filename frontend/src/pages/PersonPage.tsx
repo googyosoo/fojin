@@ -122,7 +122,7 @@ function buildPersonJsonLd(
   const payload: PersonJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: entity.name_zh || `佛教人物 #${entity.id}`, // i18n-exempt — JSON-LD payload for crawlers, not rendered UI
+    name: entity.name_zh || `불교 인물 #${entity.id}`,
     url: `https://fojin.app/person/${entity.id}`,
   };
   if (alt.length) payload.alternateName = alt;

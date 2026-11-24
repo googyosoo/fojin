@@ -109,7 +109,7 @@ export default function WorkDetailPage() {
             {
               title: (
                 <span style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
-                  <HomeOutlined /> {t("nav.home", "首页")}
+                  <HomeOutlined /> {t("nav.home", "일주문(홈)")}
                 </span>
               ),
             },

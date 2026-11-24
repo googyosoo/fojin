@@ -1619,8 +1619,8 @@ export default function ChatPage() {
 
     const msg = context
       ? source
-        ? `关于《${source}》中的这段经文：\n\n> ${context}\n\n${q}` // i18n-exempt — chat message payload sent to the zh RAG pipeline
-        : `关于这段经文：\n\n> ${context}\n\n${q}` // i18n-exempt — chat message payload sent to the zh RAG pipeline
+        ? `《${source}》의 경전 구절에 대해:\n\n> ${context}\n\n${q}`
+        : `해당 경전 구절에 대해:\n\n> ${context}\n\n${q}`
       : q;
     handleSendMessage(msg);
   }, [searchParams, setSearchParams, handleSendMessage]);
@@ -1636,7 +1636,7 @@ export default function ChatPage() {
       return;
     }
     const sessionTitle = sessions?.find((s) => s.id === sessionId)?.title || t("chat.new_chat");
-    const now = new Date().toLocaleString("zh-CN");
+    const now = new Date().toLocaleString("ko-KR");
     let md = `# ${sessionTitle}\n${t("chat.export_time", { time: now })}\n\n`;
     for (const m of messages) {
       if (m.role === "user") {
@@ -2179,7 +2179,7 @@ export default function ChatPage() {
                     type="primary"
                     shape="circle"
                     className="chat-send-btn"
-                    aria-label={t("chat.send", "发送")}
+                    aria-label={t("chat.send", "전송")}
                     icon={<ArrowUpOutlined />}
                     onClick={handleSend}
                     disabled={!input.trim()}
@@ -2192,10 +2192,15 @@ export default function ChatPage() {
                   {t("chat.master_disclaimer")}
                 </div>
               )}
-              {messages.length === 0 && (welcomeCardsData?.questions?.length ?? 0) > 0 && (
+              {messages.length === 0 && (
                 <>
                   <div className="chat-hero-cards">
-                    {(welcomeCardsData?.questions ?? []).map((card: HotQuestionCard) => (
+                    {[
+                      { id: 101, display_text: "‘계·정·혜’ 삼학은 서로 어떤 관계입니까?", category: "对比辨析" as HotQuestionCategory },
+                      { id: 102, display_text: "유식과 중관은 ‘공(空)’의 이해에서 어떻게 다릅니까?", category: "对比辨析" as HotQuestionCategory },
+                      { id: 103, display_text: "《금강경》의 핵심 가르침과 일상 참구법은 무엇입니까?", category: "经文解读" as HotQuestionCategory },
+                      { id: 104, display_text: "선종의 ‘직지인심 견성성불’은 무엇을 뜻합니까?", category: "经文解读" as HotQuestionCategory },
+                    ].map((card: HotQuestionCard) => (
                       <button
                         key={card.id}
                         type="button"
@@ -2218,7 +2223,7 @@ export default function ChatPage() {
                       onClick={() => refetchWelcomeCards()}
                       style={{ color: "var(--fj-ink-muted)", fontSize: 12 }}
                     >
-                      {t("chat.refresh_hot_questions", "换一批")}
+                      {t("chat.refresh_hot_questions", "새로고침")}
                     </Button>
                   </div>
                 </>

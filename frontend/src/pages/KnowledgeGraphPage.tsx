@@ -76,54 +76,60 @@ const PREDICATE_DESC_KEYS: Record<string, string> = {
 // least one related entity, so a chip never lands on an empty graph.
 // Item labels are entity names sent verbatim to the search API (and the
 // graph data is Chinese-canonical), so they stay untranslated.
-const CURATED_GROUPS: { titleKey: string; items: { label: string; type: string }[] }[] = [
+interface CuratedItem {
+  label: string;
+  query: string;
+  type: string;
+}
+
+const CURATED_GROUPS: { titleKey: string; items: CuratedItem[] }[] = [
   {
     titleKey: "kg.curated_masters",
     items: [
-      { label: "玄奘", type: "person" }, // i18n-exempt
-      { label: "鸠摩罗什", type: "person" }, // i18n-exempt
-      { label: "不空", type: "person" }, // i18n-exempt
-      { label: "义净", type: "person" }, // i18n-exempt
-      { label: "法显", type: "person" }, // i18n-exempt
-      { label: "龙树", type: "person" }, // i18n-exempt
-      { label: "世亲", type: "person" }, // i18n-exempt
-      { label: "无著", type: "person" }, // i18n-exempt
-      { label: "法藏", type: "person" }, // i18n-exempt
-      { label: "惠能", type: "person" }, // i18n-exempt
-      { label: "智顗", type: "person" }, // i18n-exempt
-      { label: "道宣", type: "person" }, // i18n-exempt
+      { label: "현장(玄奘)", query: "玄奘", type: "person" },
+      { label: "구마라집(鳩摩羅什)", query: "鸠摩罗什", type: "person" },
+      { label: "불공(不空)", query: "不空", type: "person" },
+      { label: "의정(義淨)", query: "义净", type: "person" },
+      { label: "법현(法顯)", query: "法显", type: "person" },
+      { label: "용수(龍樹)", query: "龙树", type: "person" },
+      { label: "세친(世親)", query: "世亲", type: "person" },
+      { label: "무착(無著)", query: "无著", type: "person" },
+      { label: "법장(法藏)", query: "法藏", type: "person" },
+      { label: "혜능(慧能)", query: "惠能", type: "person" },
+      { label: "지의(智顗)", query: "智顗", type: "person" },
+      { label: "도선(道宣)", query: "道宣", type: "person" },
     ],
   },
   {
     titleKey: "kg.curated_schools",
     items: [
-      { label: "天台宗", type: "school" }, // i18n-exempt
-      { label: "华严宗", type: "school" }, // i18n-exempt
-      { label: "法相宗", type: "school" }, // i18n-exempt
-      { label: "三论宗", type: "school" }, // i18n-exempt
-      { label: "律宗", type: "school" }, // i18n-exempt
-      { label: "净土宗", type: "school" }, // i18n-exempt
-      { label: "禅宗", type: "school" }, // i18n-exempt
-      { label: "密宗", type: "school" }, // i18n-exempt
+      { label: "천태종(天台宗)", query: "天台宗", type: "school" },
+      { label: "화엄종(華嚴宗)", query: "华严宗", type: "school" },
+      { label: "법상종(法相宗)", query: "法相宗", type: "school" },
+      { label: "삼론종(三論宗)", query: "三论宗", type: "school" },
+      { label: "율종(律宗)", query: "律宗", type: "school" },
+      { label: "정토종(淨土宗)", query: "净土宗", type: "school" },
+      { label: "선종(禪宗)", query: "禅宗", type: "school" },
+      { label: "밀종(密宗)", query: "密宗", type: "school" },
     ],
   },
   {
     titleKey: "kg.curated_concepts",
     items: [
-      { label: "缘起", type: "concept" }, // i18n-exempt
-      { label: "四圣谛", type: "concept" }, // i18n-exempt
-      { label: "八正道", type: "concept" }, // i18n-exempt
-      { label: "十二因缘", type: "concept" }, // i18n-exempt
-      { label: "三法印", type: "concept" }, // i18n-exempt
-      { label: "空性", type: "concept" }, // i18n-exempt
-      { label: "中道", type: "concept" }, // i18n-exempt
-      { label: "般若", type: "concept" }, // i18n-exempt
-      { label: "涅槃", type: "concept" }, // i18n-exempt
-      { label: "菩提", type: "concept" }, // i18n-exempt
-      { label: "佛性", type: "concept" }, // i18n-exempt
-      { label: "菩提心", type: "concept" }, // i18n-exempt
-      { label: "唯识", type: "concept" }, // i18n-exempt
-      { label: "如来藏", type: "concept" }, // i18n-exempt
+      { label: "연기(緣起)", query: "缘起", type: "concept" },
+      { label: "사성제(四聖諦)", query: "四圣谛", type: "concept" },
+      { label: "팔정도(八正道)", query: "八正道", type: "concept" },
+      { label: "십이인연(十二因緣)", query: "十二因缘", type: "concept" },
+      { label: "삼법인(三法印)", query: "三法印", type: "concept" },
+      { label: "공성(空性)", query: "空性", type: "concept" },
+      { label: "중도(中道)", query: "中道", type: "concept" },
+      { label: "반야(般若)", query: "般若", type: "concept" },
+      { label: "열반(涅槃)", query: "涅槃", type: "concept" },
+      { label: "보리(菩提)", query: "菩提", type: "concept" },
+      { label: "불성(佛性)", query: "佛性", type: "concept" },
+      { label: "보리심(菩提心)", query: "菩提心", type: "concept" },
+      { label: "유식(唯識)", query: "唯识", type: "concept" },
+      { label: "여래장(如來藏)", query: "如来藏", type: "concept" },
     ],
   },
 ];
@@ -604,8 +610,8 @@ export default function KnowledgeGraphPage() {
                   {g.items.map((item) => (
                     <button
                       key={item.label}
-                      className={`kg-chip${query === item.label ? " active" : ""}`}
-                      onClick={() => handleCurated(item.label, item.type)}
+                      className={`kg-chip${query === (item.query || item.label) ? " active" : ""}`}
+                      onClick={() => handleCurated(item.query || item.label, item.type)}
                     >
                       {item.label}
                     </button>

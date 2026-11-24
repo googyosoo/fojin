@@ -136,7 +136,7 @@ export default function SourceSelector({ sources, selected, onChange }: SourceSe
                 </Tag>
               )}
             </span>
-            <span className="src-item-tag">{t(`region.${s.region || "其他"}`, s.region || "其他")}</span>
+            <span className="src-item-tag">{t(`region.${s.region || "其他"}`, s.region || "기타")}</span>
             <span className="src-item-tag">{t(`sources.category_${getCategory(s)}`)}</span>
             {s.access_type === "external" && s.base_url && (
               <a

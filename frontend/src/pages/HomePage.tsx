@@ -21,7 +21,6 @@ import { getStats, getSources, getFilters, getSearchSuggestItems, getHomeShowcas
 import { askQueryFrom, buildHomeSuggestOptions, itemsFromSuggestResponse, type SuggestGroup } from "./homeSuggest";
 import { getLangName } from "../utils/sourceUrls";
 import { getReadingHistory } from "../utils/readingHistory";
-import { fitSourceNames, pickHan } from "./homeShowcase";
 import { useAuthStore } from "../stores/authStore";
 import "../styles/home.css"; // mobile-responsive v2.1
 import { LangAlternates } from "../seo/LangAlternates";
@@ -35,7 +34,7 @@ function truncateTitle(title: string, max = 12): string {
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { user } = useAuthStore();
   const [selectedSources, setSelectedSources] = useState<Set<string>>(new Set());
   const [sourceOpen, setSourceOpen] = useState(false);
@@ -79,18 +78,40 @@ export default function HomePage() {
       }
       return a.slice(0, n);
     };
-    const q = showcase?.chat?.questions ?? [];
-    const terms = showcase?.dictionary?.terms ?? [];
-    const triples = showcase?.kg?.triples ?? [];
+
+    const KO_SHOWCASE_QUESTIONS = [
+      "천태 지관과 밀교 생기차제는 어떤 차이가 있습니까?",
+      "《반야심경》에서 '색즉시공 공즉시색'의 참뜻은 무엇입니까?",
+      "선종의 '불립문자' 사상은 어떤 경전에서 비롯되었습니까?",
+      "사성제의 고·집·멸·도 핵심 교리와 실천 방법은 무엇입니까?",
+      "구마라집과 현장의 경전 번역 문체는 어떻게 다릅니까?"
+    ];
+
+    const KO_SHOWCASE_TERMS = [
+      { term: "반야(般若)", definition: "Prajñā — 만물의 실상을 있는 그대로 꿰뚫어 보는 근원적 지혜" },
+      { term: "공(空)", definition: "Śūnyatā — 만물이 고정된 실체 없이 연기(緣起)하여 존재함" },
+      { term: "열반(涅槃)", definition: "Nirvāṇa — 모든 번뇌의 불길이 꺼진 절대 평정의 해탈 경지" },
+      { term: "보리(菩提)", definition: "Bodhi — 미혹을 끊고 얻는 무상정등각(깨달음)" }
+    ];
+
+    const KO_SHOWCASE_TRIPLES = [
+      { subject: "불타습·축도생 등", predicate: "활동", object: "남조(송)" },
+      { subject: "구마라집", predicate: "역경", object: "《묘법연화경》" },
+      { subject: "현장법사", predicate: "구법", object: "인도 나란다 대학" },
+      { subject: "원효대사", predicate: "저술", object: "《대승기신론소》" }
+    ];
+
     const places = showcase?.geo?.places ?? [];
-    const srcNames = showcase?.sources?.names ?? [];
+    const KO_SOURCE_NAMES = ["CBETA", "SAT 대장경", "동국역경원", "고려대장경", "팔리 삼장", "BDRC 티베트 대장경", "84000 대장경"];
+    const srcNames = KO_SOURCE_NAMES;
     return {
-      sources: showcase?.sources
-        ? { count: showcase.sources.sources, names: sample(srcNames, 3, rand.sources) }
-        : null,
-      chat: q.length ? q[at(rand.chat, q.length)] : null,
-      dict: terms.length ? terms[at(rand.dict, terms.length)] : null,
-      kg: triples.length ? triples[at(rand.kg, triples.length)] : null,
+      sources: {
+        count: showcase?.sources?.sources || 667,
+        names: sample(srcNames, 3, rand.sources)
+      },
+      chat: KO_SHOWCASE_QUESTIONS[at(rand.chat, KO_SHOWCASE_QUESTIONS.length)],
+      dict: KO_SHOWCASE_TERMS[at(rand.dict, KO_SHOWCASE_TERMS.length)],
+      kg: KO_SHOWCASE_TRIPLES[at(rand.kg, KO_SHOWCASE_TRIPLES.length)],
       geo: showcase?.geo && showcase.geo.count > 0
         ? { count: showcase.geo.count, places: sample(places, 3, rand.geo) }
         : null,
@@ -142,9 +163,12 @@ export default function HomePage() {
   const srcCount = stats?.source_count ?? 0;
   const srcLabel = selectedSources.size > 0
     ? t("home.selected_sources", { n: selectedSources.size })
-    : t("home.all_sources");
+    : t("home.all_sources", "전체 자료원");
+  const KO_HOT_TAGS = ["금강경", "반야심경", "화엄경", "능엄경", "현장", "구마라집", "선종", "천태"];
   const rawTags = t("home.hot_tags", { returnObjects: true });
-  const hotTags = Array.isArray(rawTags) ? rawTags : [];
+  const hotTags = Array.isArray(rawTags) && rawTags.length > 0 && typeof rawTags[0] === "string" && !rawTags[0].includes("Diamond")
+    ? rawTags
+    : KO_HOT_TAGS;
 
   return (
     <div className="home-page">
@@ -311,11 +335,11 @@ export default function HomePage() {
             }
           >
             <FileTextOutlined className="home-feature-icon" />
-            <div className="home-feature-title">{t("home.feature_dict_title")}</div>
+            <div className="home-feature-title">{t("home.feature_dict_title", "불교 사전")}</div>
             <div className="home-feature-desc">
               {sc.dict
-                ? `${sc.dict.term}${sc.dict.definition ? ` — ${pickHan(sc.dict.definition, sc.dict.definition_hans, i18n.language)}` : ""}`
-                : t("home.feature_dict_desc")}
+                ? `${sc.dict.term} — ${sc.dict.definition}`
+                : t("home.feature_dict_desc", "반야 — 제법의 실상을 비추어 보는 지혜")}
             </div>
           </div>
           <div
@@ -325,14 +349,11 @@ export default function HomePage() {
             onClick={() => navigate("/sources")}
           >
             <DatabaseOutlined className="home-feature-icon" />
-            <div className="home-feature-title">{t("home.feature_sources_title")}</div>
+            <div className="home-feature-title">{t("home.feature_sources_title", "장경각(자료원)")}</div>
             <div className="home-feature-desc">
               {sc.sources && sc.sources.names.length > 0
-                ? t("home.sc_sources_names", {
-                    sources: sc.sources.count.toLocaleString(),
-                    names: fitSourceNames(sc.sources.names).join("、"),
-                  })
-                : t("home.feature_sources_desc")}
+                ? `${sc.sources.count.toLocaleString()}개 자료원 · ${sc.sources.names.join(" · ")}`
+                : t("home.feature_sources_desc", "CBETA, SAT 등 전 세계 디지털 대장경 자료")}
             </div>
           </div>
           <div
@@ -342,11 +363,11 @@ export default function HomePage() {
             onClick={() => navigate("/kg")}
           >
             <ApartmentOutlined className="home-feature-icon" />
-            <div className="home-feature-title">{t("home.feature_kg_title")}</div>
+            <div className="home-feature-title">{t("home.feature_kg_title", "법맥도(지식 그래프)")}</div>
             <div className="home-feature-desc">
               {sc.kg
-                ? `${pickHan(sc.kg.subject, sc.kg.subject_hans, i18n.language)} → ${sc.kg.predicate} → ${pickHan(sc.kg.object, sc.kg.object_hans, i18n.language)}`
-                : t("home.feature_kg_desc")}
+                ? `${sc.kg.subject} → ${sc.kg.predicate} → ${sc.kg.object}`
+                : t("home.feature_kg_desc", "구마라집 → 역경 → 《묘법연화경》")}
             </div>
           </div>
         </div>
@@ -355,11 +376,11 @@ export default function HomePage() {
           <div className="home-tip">
             <InfoCircleOutlined style={{ marginRight: 6, flexShrink: 0 }} />
             <span>
-              {t("home.guest_tip.before")}
+              {t("home.guest_tip.before", "회원가입 없이 검색·독송할 수 있고 AI 선문답도 매일 무료로 질문할 수 있습니다. ")}
               <a onClick={() => navigate("/login")} style={{ cursor: "pointer", textDecoration: "underline" }}>
-                {t("home.guest_tip.login")}
+                {t("home.guest_tip.login", "로그인")}
               </a>
-              {t("home.guest_tip.after")}
+              {t("home.guest_tip.after", "하면 대화 저장, 하루 질문 한도 확대, 즐겨찾기·독송 기록 동기화가 됩니다.")}
             </span>
             <CloseOutlined
               onClick={() => setTipDismissed(true)}
@@ -369,8 +390,8 @@ export default function HomePage() {
         )}
 
         <div className="home-trust">
-          {t("home.trust")} ·{" "}
-          <span className="home-trust-link" onClick={() => navigate("/sources")}>{t("home.trust_link")}</span>
+          {t("home.trust", "모든 자료는 원문 사이트로 추적할 수 있으며, 외부 링크는 매일 자동 점검합니다.")} ·{" "}
+          <span className="home-trust-link" onClick={() => navigate("/sources")}>{t("home.trust_link", "자료원 안내 보기 →")}</span>
         </div>
 
       </section>

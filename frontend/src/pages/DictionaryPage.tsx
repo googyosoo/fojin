@@ -352,7 +352,7 @@ export default function DictionaryPage() {
                   <div className="dict-source-card-count">
                     {t("dict.entry_count", { n: src.entry_count.toLocaleString() })}
                   </div>
-                  {src.description && (
+                  {src.description && !/[\u4E00-\u9FFF]/.test(src.description) && (
                     <div style={{ fontSize: 12, color: "var(--fj-ink-muted)", marginTop: 4, lineHeight: 1.5 }}>
                       {src.description.length > 50 ? src.description.slice(0, 50) + "..." : src.description}
                     </div>
