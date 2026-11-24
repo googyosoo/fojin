@@ -117,6 +117,18 @@ const HOT_QUESTION_CATEGORY_SLUGS: Record<HotQuestionCategory, string> = {
   "佛教史话": "buddhist_history",
 };
 
+const KO_HOT_QUESTIONS: HotQuestionCard[] = [
+  { id: 1, display_text: "《승만경》의 일승·여래장은 어떻게 이해하나요?", category: "经文解读" },
+  { id: 2, display_text: "불성(佛性)은 어떻게 이해해야 하나요?", category: "经文解读" },
+  { id: 3, display_text: "팔정도는 각각 어떻게 실천하나요?", category: "经文解读" },
+  { id: 4, display_text: "나란다 사원과 중국 총림 제도는 무엇이 다른가요?", category: "对比辨析" },
+  { id: 5, display_text: "아소카왕의 제3차 결집은 어떤 의미가 있나요?", category: "佛教史话" },
+  { id: 6, display_text: "‘계·정·혜’ 삼학은 서로 어떤 관계인가요?", category: "对比辨析" },
+  { id: 7, display_text: "유식과 중관은 ‘공(空)’의 이해에서 어떻게 다른가요?", category: "对比辨析" },
+  { id: 8, display_text: "《금강경》의 핵심 가르침과 일상 참구법은 무엇인가요?", category: "经文解读" },
+  { id: 9, display_text: "선종의 ‘직지인심 견성성불’은 무엇을 뜻하나요?", category: "经文解读" },
+];
+
 /** Extract [追问] follow-up suggestions from assistant message text. */
 function parseFollowUps(content: string): { cleanContent: string; suggestions: string[] } {
   const lines = content.split("\n");
@@ -718,6 +730,15 @@ export default function ChatPage() {
   }, []);
   const [attachments, setAttachments] = useState<ChatAttachmentMeta[]>([]);
   const [uploadingAttachment, setUploadingAttachment] = useState(false);
+  const [hotQuestionOffset, setHotQuestionOffset] = useState(0);
+
+  const displayedHotQuestions = useMemo(() => {
+    const list: HotQuestionCard[] = [];
+    for (let i = 0; i < 4; i++) {
+      list.push(KO_HOT_QUESTIONS[(hotQuestionOffset + i) % KO_HOT_QUESTIONS.length]);
+    }
+    return list;
+  }, [hotQuestionOffset]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
@@ -2016,7 +2037,7 @@ export default function ChatPage() {
                     </a>
                   </span>
                 ) : (
-                  <span>{t("chat.quota_info", { limit: quota?.limit, remaining: quota?.remaining })}<a onClick={() => navigate("/login")}>{t("chat.login")}</a>{t("chat.login_quota_hint")}</span>
+                  <span>{t("chat.quota_info", { limit: quota?.limit, remaining: quota?.remaining })} <a onClick={() => navigate("/login")}>{t("chat.login")}</a>{t("chat.login_quota_hint")}</span>
                 )}
               />
             ) : null}
@@ -2195,12 +2216,7 @@ export default function ChatPage() {
               {messages.length === 0 && (
                 <>
                   <div className="chat-hero-cards">
-                    {[
-                      { id: 101, display_text: "‘계·정·혜’ 삼학은 서로 어떤 관계입니까?", category: "对比辨析" as HotQuestionCategory },
-                      { id: 102, display_text: "유식과 중관은 ‘공(空)’의 이해에서 어떻게 다릅니까?", category: "对比辨析" as HotQuestionCategory },
-                      { id: 103, display_text: "《금강경》의 핵심 가르침과 일상 참구법은 무엇입니까?", category: "经文解读" as HotQuestionCategory },
-                      { id: 104, display_text: "선종의 ‘직지인심 견성성불’은 무엇을 뜻합니까?", category: "经文解读" as HotQuestionCategory },
-                    ].map((card: HotQuestionCard) => (
+                    {displayedHotQuestions.map((card) => (
                       <button
                         key={card.id}
                         type="button"
@@ -2220,7 +2236,10 @@ export default function ChatPage() {
                       type="text"
                       icon={<ReloadOutlined />}
                       loading={welcomeCardsLoading}
-                      onClick={() => refetchWelcomeCards()}
+                      onClick={() => {
+                        setHotQuestionOffset((prev) => (prev + 3) % KO_HOT_QUESTIONS.length);
+                        refetchWelcomeCards();
+                      }}
                       style={{ color: "var(--fj-ink-muted)", fontSize: 12 }}
                     >
                       {t("chat.refresh_hot_questions", "새로고침")}

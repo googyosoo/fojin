@@ -376,11 +376,11 @@ export default function HomePage() {
           <div className="home-tip">
             <InfoCircleOutlined style={{ marginRight: 6, flexShrink: 0 }} />
             <span>
-              {t("home.guest_tip.before", "회원가입 없이 검색·독송할 수 있고 AI 선문답도 매일 무료로 질문할 수 있습니다. ")}
+              {t("home.guest_tip.before", "회원가입 없이 검색과 경전 독송이 가능하며, AI 선문답도 매일 무료로 질문할 수 있습니다. ")}
               <a onClick={() => navigate("/login")} style={{ cursor: "pointer", textDecoration: "underline" }}>
                 {t("home.guest_tip.login", "로그인")}
               </a>
-              {t("home.guest_tip.after", "하면 대화 저장, 하루 질문 한도 확대, 즐겨찾기·독송 기록 동기화가 됩니다.")}
+              {t("home.guest_tip.after", "하시면 대화 저장, 일일 질문 한도 확대, 보관함 및 독송 기록 동기화가 가능합니다.")}
             </span>
             <CloseOutlined
               onClick={() => setTipDismissed(true)}
